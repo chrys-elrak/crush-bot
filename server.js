@@ -6,13 +6,14 @@ const PORT = process.env.port || 3000;
 
 dotenv.config();
 
-cors({ origin: true });
+cors();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
 app.get('/', (req, res, next) =>{
+    console.log("GET HOME !");
     return res.send('<h1>Hello world from Crush bit<h1>');
 });
 
@@ -24,7 +25,7 @@ app.post('/webhook', (req, res) => {
 
 });
 
-app.listen(PORT, "localhost", (err) => {
+app.listen(PORT, (err) => {
     if (err) throw err;
     console.info(`Server listen on port ${PORT}`);
 });
