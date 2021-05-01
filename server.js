@@ -3,6 +3,7 @@ require('cors')({});
 const express = require('express');
 const path = require('path');
 const app = express();
+const request = require('request');
 const PORT = process.env.PORT || 3000;
 
 // curl -X GET "localhost:3000/webhook?hub.verify_toke=<VERIFY_TOKEN>&hub.challenge=CHALLENGE_ACCEPTED&hub.mode=subscribe"
