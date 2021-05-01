@@ -36,6 +36,7 @@ app
     if (body.object === 'page') {
       body.entry.forEach(function (entry) {
         const webhook_event = entry.messaging[0];
+        const sender_psid = webhook_event.sender.id;
         if (webhook_event.message) {
           handleMessage(sender_psid, webhook_event.message);
         } else if (webhook_event.postback) {
