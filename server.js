@@ -35,41 +35,40 @@ app
     const body = req.body;
     if (body.object === 'page') {
       body.entry.forEach(function (entry) {
-        const webhook_event = entry.messaging[0];
-        const sender_psid = webhook_event.sender.id;
-        if (webhook_event.message) {
-          handleMessage(sender_psid, webhook_event.message);
-        } else if (webhook_event.postback) {
-          handlePostback(sender_psid, webhook_event.postback);
+        const webhookEvent = entry.messaging[0];
+        const senderPsid = webhookEvent.sender.id;
+        console.log('SENDER ID: ' + senderPsid);
+        if (webhookEvent.message) {
+          console.log("MESSAGE");
+          handleMessage(senderPsid, webhookEvent.message);
+        } else if (webhookEvent.postback) {
+          console.log("POST BACK");
+          handlePostback(senderPsid, webhookEvent.postback);
         }
+        console.log("IDK");
       });
-      res.status(200).send('EVENT_RECEIVED');
-    } else {
-      res.sendStatus(404);
+      return res.status(200).send('EVENT_RECEIVED');
     }
+    return res.sendStatus(404);
   });
 
-function handlePostback(sender_psid, received_postback) {
+function handlePostback(senderPsid, received_postback) {
   let response;
 
-  // Get the payload for the postback
   let payload = received_postback.payload;
-
-  // Set the response based on the postback payload
   if (payload === 'yes') {
     response = { "text": "Thanks!" }
   } else if (payload === 'no') {
     response = { "text": "Oops, try sending another image." }
   }
-  // Send the message to acknowledge the postback
-  callSendAPI(sender_psid, response);
+  callSendAPI(senderPsid, response);
 }
 
 
-function callSendAPI(sender_psid, response) {
+function callSendAPI(senderPsid, response) {
   let request_body = {
     "recipient": {
-      "id": sender_psid
+      "id": senderPsid
     },
     "message": response
   }
@@ -88,17 +87,17 @@ function callSendAPI(sender_psid, response) {
   });
 }
 
-function handleMessage(sender_psid, received_message) {
+function handleMessage(senderPsid, receivedMessage) {
 
   let response;
 
-  if (received_message.text) {
+  if (receivedMessage.text) {
     response = {
-      "text": `You sent the message: "${received_message.text}". Now send me an attachment!`
+      "text": `You sent the message: "${receivedMessage.text}". Now send me an attachment!`
     }
-  } else if (received_message.attachments) {
+  } else if (receivedMessage.attachments) {
 
-    let attachment_url = received_message.attachments[0].payload.url;
+    let attachment_url = receivedMessage.attachments[0].payload.url;
     response = {
       "attachment": {
         "type": "template",
@@ -125,7 +124,7 @@ function handleMessage(sender_psid, received_message) {
       }
     }
   }
-  callSendAPI(sender_psid, response);
+  callSendAPI(senderPsid, response);
 }
 
 app.listen(PORT, (err) => {
