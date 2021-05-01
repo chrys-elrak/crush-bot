@@ -23,6 +23,6 @@ app.post('/webhook', (req, res) => {
 
 });
 
-app.listen(app.get('port'), server =>{
+app.listen(app.get('port'), () => {
     console.info(`Server listen on port ${app.get('port')}`);
-})
+});
