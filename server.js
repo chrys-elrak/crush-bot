@@ -1,15 +1,17 @@
+require('dotenv').config();
+
 const express = require('express');
-const dotenv = require('dotenv');
+const path = require('path');
 const cors = require('cors');
 const app = express();
 const PORT = process.env.port || 3000;
-
-dotenv.config();
 
 cors();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.get('/privacy-policy', (req, res) => res.sendFile(path.resolve('./privacy-policy.html')));
 
 
 app.get('/', (req, res, next) =>{
