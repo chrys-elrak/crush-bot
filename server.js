@@ -5,14 +5,14 @@ const app = express();
 
 dotenv.config();
 
-cors({origin: true});
+cors({ origin: true });
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set('port', process.env.port || 3000);
 
 app.get('/', (req, res, next) =>{
-    res.send('<h1>Hello world from Crush bit<h1>');
+    return res.send('<h1>Hello world from Crush bit<h1>');
 });
 
 app.get('/webhook', (req, res) => {
