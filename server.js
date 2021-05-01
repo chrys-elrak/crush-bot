@@ -1,6 +1,5 @@
 require('dotenv').config();
 require('cors')({});
-console.log(process.env.PORT);
 const express = require('express');
 const path = require('path');
 const app = express();
@@ -9,13 +8,12 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/privacy-policy', (req, res) => res.sendFile(path.resolve('./privacy-policy.html')));
+app
+.get('/privacy-policy', (req, res) => res.sendFile(path.resolve('./terms_and_privacy/privacy-policy.html')))
 
+.get('/terms', (req, res) => res.sendFile(path.resolve('./terms_and_privacy/terms.html')))
 
-app.get('/', (req, res, next) =>{
-    console.log("GET HOME !");
-    return res.send('<h1>Hello world from Crush bit<h1>');
-});
+.get('/', (req, res, next) => res.send("HELLO WORLD !"));
 
 app.get('/webhook', (req, res) => {
 
