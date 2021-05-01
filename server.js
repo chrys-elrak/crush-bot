@@ -24,7 +24,7 @@ app.post('/webhook', (req, res) => {
 
 });
 
-app.listen(PORT, (err) => {
+app.listen(PORT, "localhost", (err) => {
     if (err) throw err;
     console.info(`Server listen on port ${PORT}`);
 });
